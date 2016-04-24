@@ -1,6 +1,27 @@
 #!/bin/bash
 
-url="$1"
+if [ -z "$1" ]
+  then
+    read -rp $'Exhentai gallery link:' url
+  else
+    url="$1"
+fi
+if [ -z "$url" ]
+  then
+    echo "Please provide a link"
+    echo "or --help for help"
+    exit
+fi 
+if [ "$url" == "--help" ]
+  then
+    echo "ExHentai Downloader for Linux"
+    echo " "
+    echo "Usage:"
+    echo "  exh-downloader gallery_url"
+    echo "  example: exh-downloader http://exhentai.org/g/918667/f611a5c353/"
+    echo "  exh-downloader --help for this help"
+    exit
+fi
 realurl="`echo $url | grep 'http://exhentai.org'`"
 if [ -z "$url" ]
   then
@@ -57,6 +78,5 @@ if [ $pagegall -ge 1 ]
 fi
 rm $HOME/.xhdownloader/xh.scrap
 rm $HOME/.xhdownloader/xh.gall
-cd ../
 rm $HOME/.xhdownloader/exhentai.title
-
+cd ../
