@@ -87,12 +87,12 @@ if [[ $key =~ ^[Yy]$ ]]
       else
         mkdir -p $HOME/bin
     fi
-    cp -R src/exh-downloader $HOME/bin/exh-downloader
+    cp -rf src/exh-downloader $HOME/bin/exh-downloader
     chmod +x $HOME/bin/exh-downloader
-    cp -R src/exhentai.cookie $HOME/.xhdownloader
+    cp -rf src/exhentai.cookie $HOME/.xhdownloader
     if [ -z "$pathbin" ]
       then
-        cp -R $HOME/.bashrc $HOME/.bashrc.bak
+        cp -rf $HOME/.bashrc $HOME/.bashrc.bak
         echo "export PATH=$HOME/bin:$PATH" >> $HOME/.bashrc
     fi    
   else
