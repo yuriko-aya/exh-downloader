@@ -34,6 +34,7 @@ if [ -z "$realurl" ]
     echo "example: http://exhentai.org/g/918667/f611a5c353/"
     exit
 fi
+gid="`echo $url | sed -e 's|/| |g' | awk '{print $4}'`"
 echo "Starting ExHentai Downloader Linux"
 sleep 1
 echo "Downloading from $url"
@@ -47,8 +48,8 @@ if [[ $page -lt 1 ]]
     exit
 fi
 pagegall="`expr $page / 40`"
-wget -c -q --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url" -O- | hxselect -i "title" | sed 's|<title>||;s| - ExHentai.org</title>||' > $HOME/.xhdownloader/exhentai.title
-extitle="`cat $HOME/.xhdownloader/exhentai.title`"
+wget -c -q --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url" -O- | hxselect -i "title" | sed 's|<title>||;s| - ExHentai.org</title>||' > $HOME/.xhdownloader/$gid.title
+extitle="`cat $HOME/.xhdownloader/$gid.title`"
 mkdir "$extitle"
 cd "$extitle"
 echo "Title: $extitle"
@@ -60,23 +61,23 @@ if [ $pagegall -ge 1 ]
 		sleep 5
 		gallnum=0
 		while [[ $gallnum -le $pagegall ]]; do
-			wget -c --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url"?p=$gallnum -O- | hxselect -i  "div.gdtm a" | lynx -stdin -dump > $HOME/.xhdownloader/xh.scrap
-			cat $HOME/.xhdownloader/xh.scrap | grep -o -P 'http://exhentai.org/.{0,27}' > $HOME/.xhdownloader/xh.gall
+			wget -c --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url"?p=$gallnum -O- | hxselect -i  "div.gdtm a" | lynx -stdin -dump > $HOME/.xhdownloader/$gid.scrap
+			cat $HOME/.xhdownloader/$gid.scrap | grep -o -P 'http://exhentai.org/.{0,27}' > $HOME/.xhdownloader/$gid.gall
 			while read line; do
 				wget -c -q --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$line" -O- | hxnormalize | egrep "src.*jpg|src.*png" | grep -v "exhentai" | sed 's|src="||;s|.$||' | wget -c --load-cookies=$HOME/.xhdownloader/exhentai.cookie -i-
-			done < $HOME/.xhdownloader/xh.gall
+			done < $HOME/.xhdownloader/$gid.gall
 			let gallnum=$gallnum+1
 		done	
 	else
 		echo "Downloading single page gallery"
 		sleep 5
-		wget -c --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url" -O- | hxselect -i  "div.gdtm a" | lynx -stdin -dump > $HOME/.xhdownloader/xh.scrap
-		cat $HOME/.xhdownloader/xh.scrap | grep -o -P 'http://exhentai.org/.{0,27}' > $HOME/.xhdownloader/xh.gall
+		wget -c --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url" -O- | hxselect -i  "div.gdtm a" | lynx -stdin -dump > $HOME/.xhdownloader/$gid.scrap
+		cat $HOME/.xhdownloader/$gid.scrap | grep -o -P 'http://exhentai.org/.{0,27}' > $HOME/.xhdownloader/$gid.gall
 		while read line; do
 			wget -c -q --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$line" -O- | hxnormalize | egrep "src.*jpg|src.*png" | grep -v "exhentai" | sed 's|src="||;s|.$||' | wget -c --load-cookies=$HOME/.xhdownloader/exhentai.cookie -i-
-		done < $HOME/.xhdownloader/xh.gall
+		done < $HOME/.xhdownloader/$gid.gall
 fi
-rm $HOME/.xhdownloader/xh.scrap
-rm $HOME/.xhdownloader/xh.gall
-rm $HOME/.xhdownloader/exhentai.title
+rm $HOME/.xhdownloader/$gid.scrap
+rm $HOME/.xhdownloader/$gid.gall
+rm $HOME/.xhdownloader/$gid.title
 cd ../
