@@ -1,5 +1,30 @@
 #!/bin/bash
 
+ver=20160801
+uptodate=`curl -s https://raw.githubusercontent.com/yuriko-aya/exh-downloader/master/version`
+
+if [ "$1" == "--update" ]; then
+  if [[ $ver != $uptodate ]]; then 
+    echo "Updating..."
+    sleep 3
+    echo "Download and Installing update..."
+    curl -s "https://raw.githubusercontent.com/yuriko-aya/exh-downloader/master/src/exh-downloader" > $HOME/bin/exh-downloader
+    curl -s "https://raw.githubusercontent.com/yuriko-aya/exh-downloader/master/src/exhentai.cookie" > $HOME/.xhdownloader/exhentai.cookie
+    echo "Done"
+  exit
+  else
+    echo "Uptodate"
+    exit
+  fi
+fi
+
+if [[ $ver != $uptodate ]]; then 
+  echo An update is availabe.
+  echo "to make sure everything work fine, please update"
+  echo "run exh-downloader --update"  
+  exit
+fi
+
 if [ -z "$1" ]
   then
     read -rp $'Exhentai gallery link:' url
