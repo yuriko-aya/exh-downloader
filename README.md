@@ -6,6 +6,7 @@ Instead of creating a zip file, this program will create folder with gallery tit
 * html-xml-utils
 * lynx
 * wget
+* curl
 
 ## Instalation
 ```bash
@@ -20,4 +21,3 @@ you can get it by exporting your browser cookie as plain text and save it.
 ```
 exh-downloader gallerylink
 ```
-
