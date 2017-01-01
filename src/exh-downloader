@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ver=20161219
+ver=20170101
 uptodate=`curl -s https://raw.githubusercontent.com/yuriko-aya/exh-downloader/master/version`
 
 if [ "$1" == "--update" ]; then
@@ -65,7 +65,7 @@ sleep 1
 echo "Downloading from $url"
 sleep 1
 echo "Fetching metadata..."
-page="`wget -c -q --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url" -O- | hxselect -i "td.gdt2" | lynx -stdin -dump | grep -o -P '.{0,4}pages' | sed 's| ||;s|pages||'`"
+page="`wget -c -q --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url" -O- | hxselect -i "td.gdt2" | lynx -stdin -dump | awk {'print $9'}`"
 if [[ $page -lt 1 ]]
   then
     echo "ERROR gallery not found"
