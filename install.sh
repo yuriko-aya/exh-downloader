@@ -6,6 +6,7 @@ sleep 3
 hxselect="`which hxselect`"
 wget="`which wget`"
 lynx="`which lynx`"
+curl="`which curl`"
 
 # Cheking if hxselect from html-xml-utils is present
 echo "Searching for hxselect from html-xml-utils"
@@ -31,6 +32,20 @@ if [ -n "$wget" ]
   else
     echo "wget not found"
     echo "Please install wget first..."
+    exit
+fi
+sleep 5
+
+#Cheking if curl is present
+echo "Searching for curl"
+sleep 3
+if [ -n "$curl" ]
+  then
+    echo "curl found"
+    echo "curl: $wget"
+  else
+    echo "curl not found"
+    echo "Please install curl first..."
     exit
 fi
 sleep 5
