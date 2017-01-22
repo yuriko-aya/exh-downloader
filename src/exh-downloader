@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ver=20170101
+ver=20170122
 uptodate=`curl -s https://raw.githubusercontent.com/yuriko-aya/exh-downloader/master/version`
 
 if [ "$1" == "--update" ]; then
