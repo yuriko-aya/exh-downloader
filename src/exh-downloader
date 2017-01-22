@@ -65,7 +65,13 @@ sleep 1
 echo "Downloading from $url"
 sleep 1
 echo "Fetching metadata..."
-page="`wget -c -q --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url" -O- | hxselect -i "td.gdt2" | lynx -stdin -dump | awk {'print $9'}`"
+status="`wget -c -q --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url" -O- | hxselect -i "td.gdt2" | lynx -stdin -dump | awk {'print $6'}`"
+if [[ $status == "TR" ]]
+  then
+    page="`wget -c -q --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url" -O- | hxselect -i "td.gdt2" | lynx -stdin -dump | awk {'print $9'}`"
+  else
+    page="`wget -c -q --load-cookies=$HOME/.xhdownloader/exhentai.cookie "$url" -O- | hxselect -i "td.gdt2" | lynx -stdin -dump | awk {'print $8'}`"
+fi
 if [[ $page -lt 1 ]]
   then
     echo "ERROR gallery not found"
