@@ -75,7 +75,7 @@ fi
 if [[ $page -lt 1 ]]
   then
     echo "ERROR gallery not found"
-    echo "Are you sure the link was correct?"
+    echo "Are you sure the link is correct?"
     exit
 fi
 pagegall="`expr $page / 40`"
